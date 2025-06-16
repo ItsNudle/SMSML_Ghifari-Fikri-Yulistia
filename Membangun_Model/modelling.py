@@ -7,13 +7,13 @@ Original file is located at
     https://colab.research.google.com/drive/1vnsIBbDfW-8liW1WnLIoiz2hzgMnW46s
 """
 
+import pandas as pd
 import dagshub
 import mlflow
 import mlflow.sklearn
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
-import pandas as pd
 
 mlflow.set_tracking_uri("http://127.0.0.1:5000")
 mlflow.set_experiment("Modelling Eksperimen")
