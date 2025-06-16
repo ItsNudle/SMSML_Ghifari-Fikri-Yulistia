@@ -5,29 +5,37 @@ import joblib
 import mlflow
 import mlflow.sklearn
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.model_selection import train_test_split, RandomizedSearchCV
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from scipy.stats import uniform
 from mlflow.models.signature import infer_signature
-
 
 os.environ["MLFLOW_TRACKING_USERNAME"] = "ghifari.fikri.yulistia"
 os.environ["MLFLOW_TRACKING_PASSWORD"] = "28a2bed8301cd660e33707a009cb925162d47426"
 
 dagshub.init(repo_owner='ghifari.fikri.yulistia', repo_name='SMSML_Ghifari-Fikri-Yulistia', mlflow=True)
-
 mlflow.set_experiment("Modelling dan Tuning Eksperimen")
 
 X = pd.read_csv("Membangun_Model/spam_ham_emails_preprocessing/tfidf.csv")
 y = pd.read_csv("Membangun_Model/spam_ham_emails_preprocessing/labels.csv")["label"]
+
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 model = LogisticRegression(max_iter=200)
 param_dist = {
-    'C': uniform(0.01, 0.1, 1, 10),
+    'C': uniform(loc=0.01, scale=0.1),
     'solver': ['liblinear', 'lbfgs']
 }
-search =  GridSearchCV(model, param_distributions=param_dist, n_iter=4, cv=3, random_state=42, verbose=1)
+
+search = RandomizedSearchCV(
+    estimator=model,
+    param_distributions=param_dist,
+    n_iter=4,
+    cv=3,
+    random_state=42,
+    verbose=1
+)
+
 search.fit(X_train, y_train)
 
 y_pred = search.predict(X_test)
@@ -51,8 +59,8 @@ with mlflow.start_run():
     input_example = X_train.iloc[:1]
 
     mlflow.sklearn.log_model(
-        search.best_estimator_,
-        "model",
+        sk_model=search.best_estimator_,
+        artifact_path="model",
         signature=signature,
         input_example=input_example
     )
