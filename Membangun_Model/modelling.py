@@ -7,7 +7,6 @@ Original file is located at
     https://colab.research.google.com/drive/1vnsIBbDfW-8liW1WnLIoiz2hzgMnW46s
 """
 
-import os
 import dagshub
 import mlflow
 import mlflow.sklearn
