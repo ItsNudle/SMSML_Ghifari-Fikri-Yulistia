@@ -16,14 +16,16 @@ import mlflow.sklearn
 from dagshub import dagshub_logger
 import dagshub
 
-dagshub.init(repo_owner='ghifari.fikri.yulistia', repo_name='Eksperimen_SML_Ghifari-Fikri-Yulistia', mlflow=True)
+os.environ["MLFLOW_TRACKING_USERNAME"] = "ghifari.fikri.yulistia"
+os.environ["MLFLOW_TRACKING_PASSWORD"] = "28a2bed8301cd660e33707a009cb925162d47426"
+dagshub.init(repo_owner='ghifari.fikri.yulistia', repo_name='MSML_Ghifari-Fikri-Yulistia', mlflow=True)
 
 mlflow.set_experiment("spam_classifier_experiment")
 
 mlflow.sklearn.autolog()
 
-X = pd.read_csv("spam_ham_emails_preprocessing/tfidf.csv")
-y = pd.read_csv("spam_ham_emails_preprocessing/labels.csv")["label"]
+X = pd.read_csv("Membangun_Model/spam_ham_emails_preprocessing/tfidf.csv")
+y = pd.read_csv("Membangun_Model/spam_ham_emails_preprocessing/labels.csv")["label"]
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
 with mlflow.start_run():
