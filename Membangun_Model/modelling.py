@@ -16,11 +16,6 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 import pandas as pd
 
-os.environ["MLFLOW_TRACKING_USERNAME"] = "ghifari.fikri.yulistia"
-os.environ["MLFLOW_TRACKING_PASSWORD"] = "28a2bed8301cd660e33707a009cb925162d47426"
-
-dagshub.init(repo_owner='ghifari.fikri.yulistia', repo_name='SMSML_Ghifari-Fikri-Yulistia', mlflow=True)
-
 mlflow.set_tracking_uri("http://127.0.0.1:5000")
 mlflow.set_experiment("Modelling Eksperimen")
 mlflow.sklearn.autolog()
