@@ -8,7 +8,7 @@ import joblib
 import mlflow
 import mlflow.sklearn
 from mlflow.models.signature import infer_signature
-from dagshub import dagshub
+from dagshub import dagshub_logger
 
 os.environ["MLFLOW_TRACKING_USERNAME"] = "ghifari.fikri.yulistia"
 os.environ["MLFLOW_TRACKING_PASSWORD"] = "28a2bed8301cd660e33707a009cb925162d47426"  # Ganti dengan token asli
