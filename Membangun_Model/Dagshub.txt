@@ -1,1 +1,1 @@
-https://dagshub.com/ghifari.fikri.yulistia/SMSML_Ghifari-Fikri-Yulistia.mlflow
+https://dagshub.com/ghifari.fikri.yulistia/Eksperimen_SML_Ghifari-Fikri-Yulistia
