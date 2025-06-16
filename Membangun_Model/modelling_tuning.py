@@ -1,21 +1,21 @@
 import os
 import pandas as pd
+import dagshub
+import joblib
+import mlflow
+import mlflow.sklearn
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split, GridSearchCV
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
 from scipy.stats import uniform
-import joblib
-import mlflow
-import mlflow.sklearn
 from mlflow.models.signature import infer_signature
-from dagshub import dagshub_logger
+
 
 os.environ["MLFLOW_TRACKING_USERNAME"] = "ghifari.fikri.yulistia"
 os.environ["MLFLOW_TRACKING_PASSWORD"] = "28a2bed8301cd660e33707a009cb925162d47426"
 
 dagshub.init(repo_owner='ghifari.fikri.yulistia', repo_name='SMSML_Ghifari-Fikri-Yulistia', mlflow=True)
 
-mlflow.set_tracking_uri("http://127.0.0.1:5000")
 mlflow.set_experiment("Modelling dan Tuning Eksperimen")
 
 X = pd.read_csv("Membangun_Model/spam_ham_emails_preprocessing/tfidf.csv")
