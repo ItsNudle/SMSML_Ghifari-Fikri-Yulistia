@@ -15,6 +15,7 @@ os.environ["MLFLOW_TRACKING_PASSWORD"] = "28a2bed8301cd660e33707a009cb925162d474
 
 dagshub.init(repo_owner='ghifari.fikri.yulistia', repo_name='SMSML_Ghifari-Fikri-Yulistia', mlflow=True)
 
+mlflow.set_tracking_uri("http://127.0.0.1:5000")
 mlflow.set_experiment("Modelling dan Tuning Eksperimen")
 
 X = pd.read_csv("Membangun_Model/spam_ham_emails_preprocessing/tfidf.csv")
