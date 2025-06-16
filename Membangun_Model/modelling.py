@@ -8,7 +8,7 @@ Original file is located at
 """
 
 import os
-from dagshub import dagshub_logger
+from dagshub import dagshub
 import mlflow
 import mlflow.sklearn
 from sklearn.linear_model import LogisticRegression
@@ -16,8 +16,16 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 import pandas as pd
 
-X = pd.read_csv("MLProjects/spam_ham_emails_preprocessing/tfidf.csv")
-y = pd.read_csv("MLProjects/spam_ham_emails_preprocessing/labels.csv")["label"]
+os.environ["MLFLOW_TRACKING_USERNAME"] = "ghifari.fikri.yulistia"
+os.environ["MLFLOW_TRACKING_PASSWORD"] = "28a2bed8301cd660e33707a009cb925162d47426"
+
+dagshub.init(repo_owner='ghifari.fikri.yulistia', repo_name='SMSML_Ghifari-Fikri-Yulistia', mlflow=True)
+
+mlflow.set_experiment("Modelling Eksperimen")
+mlflow.sklearn.autolog()
+
+X = pd.read_csv("Membangun_Model/spam_ham_emails_preprocessing/tfidf.csv")
+y = pd.read_csv("Membangun_Model/spam_ham_emails_preprocessing/labels.csv")["label"]
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
 with mlflow.start_run():
