@@ -11,7 +11,7 @@ from mlflow.models.signature import infer_signature
 from dagshub import dagshub_logger
 
 os.environ["MLFLOW_TRACKING_USERNAME"] = "ghifari.fikri.yulistia"
-os.environ["MLFLOW_TRACKING_PASSWORD"] = "28a2bed8301cd660e33707a009cb925162d47426"  # Ganti dengan token asli
+os.environ["MLFLOW_TRACKING_PASSWORD"] = "28a2bed8301cd660e33707a009cb925162d47426"
 
 dagshub.init(repo_owner='ghifari.fikri.yulistia', repo_name='my-first-repo', mlflow=True)
 
