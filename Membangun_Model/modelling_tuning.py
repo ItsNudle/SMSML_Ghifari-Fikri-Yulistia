@@ -6,14 +6,14 @@ import mlflow
 import mlflow.sklearn
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split, RandomizedSearchCV
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, log_loss, roc_auc_score
 from scipy.stats import uniform
 from mlflow.models.signature import infer_signature
 
-os.environ["MLFLOW_TRACKING_USERNAME"] = "ghifari.fikri.yulistia"
+os.environ["MLFLOW_TRACKING_USERNAME"] = "ItsNudle"
 os.environ["MLFLOW_TRACKING_PASSWORD"] = "28a2bed8301cd660e33707a009cb925162d47426"
 
-dagshub.init(repo_owner='ghifari.fikri.yulistia', repo_name='SMSML_Ghifari-Fikri-Yulistia', mlflow=True)
+dagshub.init(repo_owner='ItsNudle', repo_name='SMSML_Ghifari-Fikri-Yulistia', mlflow=True)
 mlflow.set_experiment("Modelling dan Tuning Eksperimen")
 
 X = pd.read_csv("Membangun_Model/spam_ham_emails_preprocessing/tfidf.csv")
@@ -38,20 +38,40 @@ search = RandomizedSearchCV(
 
 search.fit(X_train, y_train)
 
-y_pred = search.predict(X_test)
-acc = accuracy_score(y_test, y_pred)
-prec = precision_score(y_test, y_pred)
-rec = recall_score(y_test, y_pred)
-f1 = f1_score(y_test, y_pred)
+y_train_pred = search.predict(X_train)
+y_test_pred = search.predict(X_test)
+
+training_acc = accuracy_score(y_train, y_train_pred)
+training_prec = precision_score(y_train, y_train_pred)
+training_rec = recall_score(y_train, y_train_pred)
+training_f1 = f1_score(y_train, y_train_pred)
+training_log_loss_value = log_loss(y_train, search.predict_proba(X_train))
+training_roc_auc = roc_auc_score(y_train, search.predict_proba(X_train)[:, 1])
+
+acc = accuracy_score(y_test, y_test_pred)
+prec = precision_score(y_test, y_test_pred)
+rec = recall_score(y_test, y_test_pred)
+f1 = f1_score(y_test, y_test_pred)
+log_loss_value = log_loss(y_test, search.predict_proba(X_test))
+roc_auc = roc_auc_score(y_test, search.predict_proba(X_test)[:, 1])
 
 with mlflow.start_run():
     mlflow.log_param("best_C", search.best_params_['C'])
     mlflow.log_param("best_solver", search.best_params_['solver'])
 
+    mlflow.log_metric("training_accuracy_score", training_acc)
+    mlflow.log_metric("training_precision_score", training_prec)
+    mlflow.log_metric("training_recall_score", training_rec)
+    mlflow.log_metric("training_f1_score", training_f1)
+    mlflow.log_metric("training_log_loss", training_log_loss_value)
+    mlflow.log_metric("training_roc_auc", training_roc_auc)
+
     mlflow.log_metric("accuracy", acc)
     mlflow.log_metric("precision", prec)
     mlflow.log_metric("recall", rec)
     mlflow.log_metric("f1_score", f1)
+    mlflow.log_metric("log_loss", log_loss_value)
+    mlflow.log_metric("roc_auc", roc_auc)
 
     joblib.dump(search.best_estimator_, "best_model.pkl")
 
