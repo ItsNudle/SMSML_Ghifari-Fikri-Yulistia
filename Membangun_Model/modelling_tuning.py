@@ -11,7 +11,7 @@ from scipy.stats import uniform
 from mlflow.models.signature import infer_signature
 
 os.environ["MLFLOW_TRACKING_USERNAME"] = "ItsNudle"
-os.environ["MLFLOW_TRACKING_PASSWORD"] = "a7f1c6decdb26b0f8ab0fc749fd0daf8439aa05d"
+os.environ["MLFLOW_TRACKING_PASSWORD"] = "11fccfc93b9df7f77b755ca1718edbec8f34442e"
 
 mlflow.set_tracking_uri("https://dagshub.com/ItsNudle/SMSML_Ghifari-Fikri-Yulistia.mlflow")
 mlflow.set_experiment("Modelling dan Tuning Eksperimen")
