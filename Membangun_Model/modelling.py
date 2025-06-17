@@ -1,5 +1,4 @@
 import pandas as pd
-import dagshub
 import mlflow
 import mlflow.sklearn
 from sklearn.linear_model import LogisticRegression
