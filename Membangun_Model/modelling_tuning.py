@@ -38,40 +38,49 @@ search = RandomizedSearchCV(
 
 search.fit(X_train, y_train)
 
+# Prediksi untuk data training dan testing
 y_train_pred = search.predict(X_train)
 y_test_pred = search.predict(X_test)
 
+# Menghitung metrik untuk data training
 training_acc = accuracy_score(y_train, y_train_pred)
 training_prec = precision_score(y_train, y_train_pred)
 training_rec = recall_score(y_train, y_train_pred)
 training_f1 = f1_score(y_train, y_train_pred)
 training_log_loss_value = log_loss(y_train, search.predict_proba(X_train))
 training_roc_auc = roc_auc_score(y_train, search.predict_proba(X_train)[:, 1])
+training_score = search.best_estimator_.score(X_train, y_train)
 
+# Menghitung metrik untuk data testing
 acc = accuracy_score(y_test, y_test_pred)
 prec = precision_score(y_test, y_test_pred)
 rec = recall_score(y_test, y_test_pred)
 f1 = f1_score(y_test, y_test_pred)
 log_loss_value = log_loss(y_test, search.predict_proba(X_test))
 roc_auc = roc_auc_score(y_test, search.predict_proba(X_test)[:, 1])
+testing_score = search.best_estimator_.score(X_test, y_test)
 
 with mlflow.start_run():
     mlflow.log_param("best_C", search.best_params_['C'])
     mlflow.log_param("best_solver", search.best_params_['solver'])
 
+    # Log metrics for training
     mlflow.log_metric("training_accuracy_score", training_acc)
     mlflow.log_metric("training_precision_score", training_prec)
     mlflow.log_metric("training_recall_score", training_rec)
     mlflow.log_metric("training_f1_score", training_f1)
     mlflow.log_metric("training_log_loss", training_log_loss_value)
     mlflow.log_metric("training_roc_auc", training_roc_auc)
+    mlflow.log_metric("training_score", training_score)
 
+    # Log metrics for testing
     mlflow.log_metric("accuracy", acc)
     mlflow.log_metric("precision", prec)
     mlflow.log_metric("recall", rec)
     mlflow.log_metric("f1_score", f1)
     mlflow.log_metric("log_loss", log_loss_value)
     mlflow.log_metric("roc_auc", roc_auc)
+    mlflow.log_metric("testing_score", testing_score)
 
     joblib.dump(search.best_estimator_, "best_model.pkl")
 
