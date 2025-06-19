@@ -2,7 +2,11 @@ import requests
 import json
 
 with open("input_example.json", "r") as file:
-    payload = json.load(file)
+    raw = json.load(file)
+
+payload = {
+    "inputs": raw["data"]  # Ambil langsung data-nya
+}
 
 URL = "http://localhost:5000/invocations"
 
