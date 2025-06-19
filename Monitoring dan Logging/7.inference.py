@@ -1,13 +1,20 @@
 import requests
 import json
 
-with open("Monitoring dan Logging/input_example.json", "r") as f:
-    data = json.load(f)
+with open("input_example.json", "r") as file:
+    payload = json.load(file)
+
+URL = "http://localhost:5000/invocations"
 
 response = requests.post(
-    url="http://localhost:5000/invocations",
+    URL,
     headers={"Content-Type": "application/json"},
-    json=data
+    data=json.dumps(payload)
 )
 
-print(response.json())
+if response.status_code == 200:
+    print("✅ Prediction result:")
+    print(response.json())
+else:
+    print(f"❌ Failed with status code {response.status_code}")
+    print(response.text)
