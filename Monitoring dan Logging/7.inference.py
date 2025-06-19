@@ -5,7 +5,7 @@ with open("input_example.json", "r") as file:
     raw = json.load(file)
 
 payload = {
-    "inputs": raw["data"]  # Ambil langsung data-nya
+    "inputs": raw["data"]
 }
 
 URL = "http://localhost:5000/invocations"
