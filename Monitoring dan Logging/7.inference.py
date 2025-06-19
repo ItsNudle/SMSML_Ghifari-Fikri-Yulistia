@@ -1,10 +1,13 @@
 import requests
-import pandas as pd
+import json
 
-data = {
-  "columns": ["feature1", "feature2", ...],
-  "data": [[...]]
-}
+with open("Monitoring dan Logging/input_example.json", "r") as f:
+    data = json.load(f)
 
-res = requests.post("http://localhost:5000/invocations", json=data)
-print(res.json())
+response = requests.post(
+    url="http://localhost:5000/invocations",
+    headers={"Content-Type": "application/json"},
+    json=data
+)
+
+print(response.json())
